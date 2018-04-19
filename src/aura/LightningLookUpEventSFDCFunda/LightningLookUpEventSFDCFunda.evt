@@ -1,0 +1,4 @@
+<aura:event type="COMPONENT" description="by this event we are pass the selected record id in the parent component">
+    <aura:attribute name="recordIdByEvent" type="String"/>
+    <aura:attribute name="objectAPINameEvent" type="String"/>
+</aura:event>

@@ -1,0 +1,105 @@
+<!--
+Name: LightningLookUpBySFDCFUNDA
+Description: Create this component for reusable custom lightning Lookup
+Version | Author-Email       | Date        | Comment
+========|====================|=============|=====================
+1.0     | Sayanton Sadhu     | 17.04.2018  | initial version
+
+-->
+
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global"
+  controller="LightningLookUpBySFDCFundaController">
+
+	  <ltng:require styles="{!$Resource.SLDS213 +'/assets/styles/salesforce-lightning-design-system.css'}"/>
+		<!-- For External Use -->
+    <aura:attribute name="objectAPIName" type="String" />
+		<aura:attribute name="listSize" type="Integer" default="5"/>
+    <aura:attribute name="readOnly" type="boolean"/>
+    <aura:attribute name="nameIcon" type="String" required="true" default="custom:custom57"/>
+    <!-- For External Use -->
+
+    <!-- For Internal Use -->
+		<aura:attribute name="queryString" type="String"/>
+		<aura:attribute name="templateSearchList" type="Object"/>
+    <aura:attribute name="NoResultBooleanValue" type="boolean"/>
+    <aura:attribute name="spinnerLoad" type="Boolean" default="" />
+    <aura:attribute name="valueSelectedId" type="String" />
+    <aura:attribute name="valueSelectedName" type="String" />
+    <!-- For Internal Use -->
+
+    <!-- aura handler for spinner -->
+    <aura:handler event="aura:waiting" action="{!c.showSpinner}"/>
+    <aura:handler event="aura:doneWaiting" action="{!c.hideSpinner}"/>
+
+    <!-- Event for passing the selected record to parent component -->
+    <aura:registerEvent name="selectRecordIdEvent" type="c:LightningLookUpEventSFDCFunda"/>
+
+
+
+
+		<form aura:id="lookupForm" >
+            <div  class="" >
+                      <!-- this is lookup pill, it will display when user select any value from the list -->
+                      <div id="{!'lookuppill'+v.objectAPIName}" class="slds-pill-container slds-hide" onmouseover="{!c.onCrossChange}" onmouseout="{!c.onCrossChangeOut}">
+                         <span class="slds-pill" style="width:100%">
+                             <span class="slds-icon_container  slds-combobox__input-entity-icon" title="record">
+                                 <lightning:icon iconName="{!v.nameIcon}" size="small"/>
+                                 <span class="slds-assistive-text"></span>
+                             </span>
+                             <span aura:id="recordList" class="slds-pill__label slds-p-left_x-large" onmouseover="{!c.onCrossChange}" onmouseout="{!c.onCrossChangeOut}">
+
+                                 {!v.valueSelectedName}
+
+                             </span>
+                            <img class="slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default" src="{!$Resource.LookUpPNGImage+ '/IP_Lightning/Close.PNG'}" style="width:24px; cursor: pointer; height:25px;margin-top: -0.115remrem;margin-right: -0.0rem;" id="{!'closeButton1'+v.objectAPIName}" onclick="{!c.removePill}" title="Close" draggable="false" />
+
+                            <img class="slds-hide slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default" src="{!$Resource.LookUpPNGImage+ '/IP_Lightning/CloseForLookUp.PNG'}" style="width:24px; cursor: pointer; height:25px;margin-top: -0.115remrem;margin-right: -0.0rem;" id="{!'closeButton2'+v.objectAPIName}" onclick="{!c.removePill}" title="Close" draggable="false" />
+
+                         </span>
+                      </div>
+
+                      <!--This section is to show the input text box for Searching template-->
+                       <div id="{!'smallDiv'+v.objectAPIName}" class="slds-show slds-input-has-icon slds-input-has-icon--right ">
+                            <aura:if isTrue="{!v.spinnerLoad}">
+                              <div class="slds-float_right" aura:id="spinner">
+                                 <lightning:spinner class="slds-spinner_brand slds-float_right" size="small" />
+                              </div>
+                            </aura:if>
+
+                            <img class="slds-show slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default" src="{!$Resource.LookUpPNGImage+ '/IP_Lightning/Search.PNG'}" style="width:24px; cursor: pointer; height:25px;margin-top: -0.66rem;margin-right: -0.4rem;" id="{!'searchbutton'+v.objectAPIName}"  title="Search" draggable="false"/>
+
+                            <input type="text" id="{!'inputMain'+v.objectAPIName}" class="slds-input slds-has-input-focus" value="{!v.queryString}" onkeyup="{!c.onValueChange}" placeholder="Search.." autocomplete="off"  />
+
+                      </div>
+
+                       <!--This section is to show the list of records names as a drop down list after the user types a string and the search result is retrieved-->
+                       <div class="slds-show" id="{!'listShow'+v.objectAPIName}">
+                           <ul class="slds-dropdown__list" role="menu">
+                            <aura:iteration items="{!v.templateSearchList}" var="list">
+                                <div class="slds-box slds-box_xx-small slds-show slds-input-has-icon" >
+                                     <li class="slds-dropdown__item  " data-id="{!list.Id}" data-name="{!list.Name}" onclick="{!c.selectedTemplate}" role="presentation">
+                                         <a href="javascript:void(0);" data-id="{!list.Id}" data-name="{!list.Name}" data-value="{!list}" role="menuitem" tabindex="0"
+                                            >
+                                             <span class="slds-icon_container  slds-combobox__input-entity-icon" title="record">
+                                                <lightning:icon iconName="{!v.nameIcon}" size="medium"/>
+                                                <span class="slds-assistive-text"></span>
+                                             </span>
+                                             <span  data-name="{!list.Name}" data-id="{!list.Id}" data-value="{!list}" class="FontNotification slds-text-align_left slds-truncate slds-p-left_large">{!list.Name}</span>
+                                         </a>
+                                    </li>
+                                </div>
+                            </aura:iteration>
+                           </ul>
+                      </div>
+                      <!-- this section will display if there are no matching values with the searched string -->
+                      <ul class="{!v.NoResultBooleanValue == true ? 'slds-dropdown__list' : 'slds-hide'}" role="menu">
+                        <div class="slds-box slds-box_xx-small">
+                           <li class="slds-dropdown__item" role="presentation">
+                              <span  class="slds-truncate slds-p-left_medium"><b>No Match Found</b></span>
+
+                           </li>
+                        </div>
+                      </ul>
+              </div>
+    </form>
+</aura:component>

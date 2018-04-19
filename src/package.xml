@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SF Custom Lightning Look Up</fullName>
+    <description>This is a Reusable Custom Lightning Look Up Component which you can use for Lookup field. You can use this component several times in your Lightning component
+
+Please check this Link After Install this package. 
+
+Link : https://docs.google.com/document/d/1h89CmOWItwL-O4m_o6Y3pdsHIvqLxwWFhdX4MJeXfBQ/edit?usp=sharing</description>
+    <types>
+        <members>LightningLookUpBySFDCFundaController</members>
+        <members>LightningLookUpBySFDCFundaControllerTest</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>LightningLookUpBySFDCFUNDA</members>
+        <members>LightningLookUpEventSFDCFunda</members>
+        <name>AuraDefinitionBundle</name>
+    </types>
+    <types>
+        <members>LookUpPNGImage</members>
+        <members>SLDS213</members>
+        <name>StaticResource</name>
+    </types>
+    <version>41.0</version>
+</Package>
