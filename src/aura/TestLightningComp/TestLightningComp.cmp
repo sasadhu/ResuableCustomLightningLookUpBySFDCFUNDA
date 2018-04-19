@@ -1,0 +1,40 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global">
+	
+    <aura:handler name="selectRecordIdEvent" event="c:LightningLookUpEventSFDCFunda" action="{!c.handleComponentEventAccount}"/>
+    <aura:attribute name="accountId" type="String"/>
+    <aura:handler name="selectRecordIdEvent" event="c:LightningLookUpEventSFDCFunda" action="{!c.handleComponentEventContact}"/>
+    <aura:attribute name="contactId" type="String"/>
+    <aura:handler name="selectRecordIdEvent" event="c:LightningLookUpEventSFDCFunda" action="{!c.handleComponentEventLead}"/>
+    <aura:attribute name="leadId" type="String"/>
+    
+    <table> 
+        <tr> 
+            <th>Name</th> 
+            <th>Value</th> 
+        </tr> 
+        <tr> 
+            <td>Name ::</td> 
+            <td><input type="text" /></td> 
+        </tr> 
+        <br/>
+        <tr> 
+            <td>Account Look Up</td> 
+            <td> <c:LightningLookUpBySFDCFUNDA objectAPIName="Account"/></td> <br/>
+            <td>Id : {!v.accountId}</td>
+        </tr>
+        <br/>
+        <tr> 
+            <td>Contact Look Up</td> 
+            <td> <c:LightningLookUpBySFDCFUNDA objectAPIName="Contact" nameIcon="custom:custom85"/></td> <br/>
+            <td>Id : {!v.contactId}</td>
+        </tr> 
+        <br/>
+        <tr> 
+            <td>Lead Look Up</td> 
+            <td> <c:LightningLookUpBySFDCFUNDA objectAPIName="Lead" nameIcon="custom:custom81"/></td> <br/>
+            <td>Id : {!v.leadId}</td>
+        </tr> 
+    </table>
+
+
+</aura:component>

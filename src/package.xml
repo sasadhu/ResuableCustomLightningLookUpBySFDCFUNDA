@@ -14,7 +14,8 @@ Link : https://docs.google.com/document/d/1h89CmOWItwL-O4m_o6Y3pdsHIvqLxwWFhdX4M
     <types>
         <members>LightningLookUpBySFDCFUNDA</members>
         <members>LightningLookUpEventSFDCFunda</members>
-        <name>AuraDefinitionBundle</name>
+		<members>TestLightningComp</members>
+		<name>AuraDefinitionBundle</name>
     </types>
     <types>
         <members>LookUpPNGImage</members>
