@@ -31,6 +31,8 @@ After adding this you need to go the controller of your component, you can handl
 
 File :: LightningLookUpBySFDCFundaController.js	
 
+//Code
+
 handleComponentEventAccount : function(component, event, helper) {
 	//getting record Id from the event
 	var selectedIdGetFromEvent = event.getParam("recordIdByEvent");
